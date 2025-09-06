@@ -37,20 +37,28 @@ export default function RootLayout({
         <body
           className={`${geistSans.variable} ${geistMono.variable} antialiased`}
         >
-          <header className="flex justify-end items-center p-4 gap-4 h-16">
-            <SignedOut>
-              <SignInButton>
-                <Button variant={"secondary"}>Sign In</Button>
-              </SignInButton>
-              <SignUpButton>
-                <Button>Sign Up</Button>
-              </SignUpButton>
-            </SignedOut>
-            <SignedIn>
-              <UserButton />
-            </SignedIn>
-          </header>
-          {children}
+          <div className="container mx-auto px-6 ">
+            <header className="flex justify-between items-center p-4 gap-4 h-16">
+              <div>
+                <h1 className="text-2xl font-bold">Taskly</h1>
+              </div>
+
+              <div className="flex justify-between items-center gap-4 ">
+                <SignedOut>
+                  <SignInButton mode="modal">
+                    <Button variant={"secondary"}>Sign In</Button>
+                  </SignInButton>
+                  <SignUpButton mode="modal">
+                    <Button>Sign Up</Button>
+                  </SignUpButton>
+                </SignedOut>
+                <SignedIn>
+                  <UserButton />
+                </SignedIn>
+              </div>
+            </header>
+            {children}
+          </div>
         </body>
       </html>
     </ClerkProvider>

@@ -1,34 +1,28 @@
-/** here this component will be used for the drawer functionality */
+"use client";
 
-import { Sheet } from "@/components/ui/sheet";
-import { TaskDetailSheet } from "./details";
 import DetailsSheet from "./DetailsSheet";
 import { Task } from "./type";
+import { EditSheet } from "./EditSheet";
+import { useToggle } from "./useToggle";
 
 interface DrawerProps {
   isOpen: boolean;
   onClose: () => void;
   selectedTask: Task | null;
-  markTaskComplete: (taskId: string) => void;
-  openEditSheet: () => void;
 }
 
-export const Drawer = ({
-  isOpen,
-  onClose,
-  selectedTask,
-  markTaskComplete,
-  openEditSheet,
-}: DrawerProps) => {
-  console.log("Drawer component rendered with isOpen:", isOpen);
+export const Drawer = ({ isOpen, onClose, selectedTask }: DrawerProps) => {
+  const editSheetSettings = useToggle(false);
 
   return (
     <>
       <DetailsSheet
-        isDetailSheetOpen={isOpen}
-        setIsDetailSheetOpen={onClose}
+        isOpen={isOpen}
+        close={onClose}
         selectedTask={selectedTask}
+        openEditSheet={editSheetSettings.open}
       />
+      <EditSheet {...editSheetSettings} />
     </>
   );
 };

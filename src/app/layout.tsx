@@ -10,6 +10,7 @@ import {
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { Button } from "@/components/ui/button";
+import { ConvexClientProvider } from "./ConvexClientProvider";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -57,7 +58,7 @@ export default function RootLayout({
                 </SignedIn>
               </div>
             </header>
-            {children}
+            <ConvexClientProvider>{children}</ConvexClientProvider>
           </div>
         </body>
       </html>

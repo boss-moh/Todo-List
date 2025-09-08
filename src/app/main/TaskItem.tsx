@@ -6,43 +6,43 @@ import { Card } from "@/components/ui/card";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Trash2 } from "lucide-react";
 
-interface Task {
-  id: string;
-  title: string;
-  daysLeft: number;
-  priority: "high" | "medium" | "low";
-  completed: boolean;
-}
+import { Tasktype } from "../../../convex/types";
+import { useMutation } from "convex/react";
+import { api } from "../../../convex/_generated/api";
 
 type TaskItemProps = {
-  task: Task;
-  onSelectTask: (task: Task) => void;
-  toggleTask: (id: string) => void;
-  deleteTask: (id: string) => void;
-  showTaskDetails?: (task: Task) => void;
+  task: Tasktype;
+  onSelectTaskId: (taskId: Tasktype["_id"]) => void;
 };
 
-export const TaskItem = ({
-  task,
-  toggleTask,
-  deleteTask,
-  onSelectTask = () => {},
-}: TaskItemProps) => {
+export const TaskItem = ({ task, onSelectTaskId }: TaskItemProps) => {
+  const markAsDoneRequest = useMutation(api.tasks.markAsComplete);
+  const deleteTaskRequest = useMutation(api.tasks.deleteTask);
+
+  const handleMark = () => {
+    markAsDoneRequest({
+      id: task._id,
+    });
+  };
+  const handleDeleteTask = () => {
+    deleteTaskRequest({ id: task._id });
+  };
   return (
-    <Card
-      key={task.id}
-      className="p-4 bg-white shadow-sm hover:shadow-md cursor-pointer"
-      onClick={() => onSelectTask(task)}
-    >
+    <Card className="p-4 bg-white shadow-sm hover:shadow-md ">
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-3 flex-1">
           <Checkbox
             checked={task.completed}
-            onCheckedChange={() => toggleTask(task.id)}
-            className="data-[state=checked]:bg-blue-500 data-[state=checked]:border-blue-500"
+            onCheckedChange={handleMark}
+            className=" cursor-pointer "
           />
           <div className="flex-1">
-            <h3 className="font-medium ">{task.title}</h3>
+            <h3
+              className="font-medium hover:underline  cursor-pointer"
+              onClick={() => onSelectTaskId(task._id)}
+            >
+              {task.title}
+            </h3>
           </div>
         </div>
 
@@ -53,7 +53,7 @@ export const TaskItem = ({
           <Button
             variant="destructive-hover"
             size="icon"
-            onClick={() => deleteTask(task.id)}
+            onClick={handleDeleteTask}
           >
             <Trash2 className="h-4 w-4" />
           </Button>

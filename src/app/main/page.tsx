@@ -1,9 +1,8 @@
-import MyTasks from "./myTask";
+import MyTasks from "./MainContent";
 
 export const MainPage = () => {
   return (
     <div>
-      MainPage
       <MyTasks />
     </div>
   );

@@ -1,16 +1,9 @@
 import type { Metadata } from "next";
-import {
-  ClerkProvider,
-  SignInButton,
-  SignUpButton,
-  SignedIn,
-  SignedOut,
-  UserButton,
-} from "@clerk/nextjs";
+import { ClerkProvider } from "@clerk/nextjs";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import { Button } from "@/components/ui/button";
 import { ConvexClientProvider } from "./ConvexClientProvider";
+import Header from "./header";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -33,35 +26,17 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <ClerkProvider>
-      <html lang="en">
-        <body
-          className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-        >
-          <div className="container mx-auto px-6 ">
-            <header className="flex justify-between items-center p-4 gap-4 h-16">
-              <div>
-                <h1 className="text-2xl font-bold">Taskly</h1>
-              </div>
-
-              <div className="flex justify-between items-center gap-4 ">
-                <SignedOut>
-                  <SignInButton mode="modal">
-                    <Button variant={"secondary"}>Sign In</Button>
-                  </SignInButton>
-                  <SignUpButton mode="modal">
-                    <Button>Sign Up</Button>
-                  </SignUpButton>
-                </SignedOut>
-                <SignedIn>
-                  <UserButton />
-                </SignedIn>
-              </div>
-            </header>
-            <ConvexClientProvider>{children}</ConvexClientProvider>
-          </div>
-        </body>
-      </html>
-    </ClerkProvider>
+    <html lang="en">
+      <body
+        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+      >
+        <ClerkProvider>
+          <ConvexClientProvider>
+            <Header />
+            <div className="container mx-auto px-6 ">{children}</div>
+          </ConvexClientProvider>
+        </ClerkProvider>
+      </body>
+    </html>
   );
 }

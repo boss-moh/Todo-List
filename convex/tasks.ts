@@ -5,15 +5,27 @@ import { v } from "convex/values";
 export const getTasks = query({
   args: {},
   handler: async (ctx) => {
-    return await ctx.db.query("tasks").collect();
+    const user = await ctx.auth.getUserIdentity();
+    if (!user) throw new Error("Not authenticated");
+    const userId = user.subject;
+    return await ctx.db
+      .query("tasks")
+      .filter((q) => q.eq(q.field("userId"), userId))
+      .collect();
   },
 });
 
 export const getTaskByID = query({
-  args: { id: v.id("tasks") || null },
+  args: { id: v.id("tasks") },
   handler: async (ctx, args) => {
-    if (args.id === null) return null;
-    return await ctx.db.get(args.id);
+    const user = await ctx.auth.getUserIdentity();
+    if (!user) throw new Error("Not authenticated");
+
+    const userId = user.subject;
+
+    const task = await ctx.db.get(args.id);
+    if (!task || task.userId !== userId) return null;
+    return task;
   },
 });
 
@@ -26,13 +38,17 @@ export const addTask = mutation({
     priority: v.union(v.literal("high"), v.literal("medium"), v.literal("low")),
   },
   handler: async (ctx, args) => {
+    const user = await ctx.auth.getUserIdentity();
+    if (!user) throw new Error("Not authenticated");
+    const userId = user.subject;
     await ctx.db.insert("tasks", {
+      userId: userId,
       title: args.title,
       description: args.description,
       daysLeft: args.daysLeft,
       priority: args.priority,
       completed: false,
-      subtasks: [], // start empty
+      subtasks: [],
     });
   },
 });
@@ -41,8 +57,11 @@ export const addTask = mutation({
 export const markAsComplete = mutation({
   args: { id: v.id("tasks") },
   handler: async (ctx, args) => {
+    const user = await ctx.auth.getUserIdentity();
+    if (!user) throw new Error("Not authenticated");
+    const userId = user.subject;
     const task = await ctx.db.get(args.id);
-    if (!task) return;
+    if (!task || task.userId !== userId) return;
     await ctx.db.patch(args.id, { completed: !task.completed });
   },
 });
@@ -51,8 +70,11 @@ export const markAsComplete = mutation({
 export const deleteTask = mutation({
   args: { id: v.id("tasks") },
   handler: async (ctx, args) => {
+    const user = await ctx.auth.getUserIdentity();
+    if (!user) throw new Error("Not authenticated");
+    const userId = user.subject;
     const task = await ctx.db.get(args.id);
-    if (!task) return;
+    if (!task || task.userId !== userId) return;
     await ctx.db.delete(args.id);
   },
 });
@@ -64,18 +86,17 @@ export const addSubtask = mutation({
     title: v.string(),
   },
   handler: async (ctx, args) => {
+    const user = await ctx.auth.getUserIdentity();
+    if (!user) throw new Error("Not authenticated");
+    const userId = user.subject;
     const task = await ctx.db.get(args.taskId);
-    if (!task) return;
-
-    // Generate a unique id for the new subtask
+    if (!task || task.userId !== userId) return;
     const newSubtask = {
       id: crypto.randomUUID(),
       title: args.title,
       completed: false,
     };
-
     const newSubtasks = [...task.subtasks, newSubtask];
-
     await ctx.db.patch(args.taskId, { subtasks: newSubtasks });
   },
 });
@@ -86,11 +107,12 @@ export const deleteSubTask = mutation({
     subtaskId: v.string(),
   },
   handler: async (ctx, args) => {
+    const user = await ctx.auth.getUserIdentity();
+    if (!user) throw new Error("Not authenticated");
+    const userId = user.subject;
     const task = await ctx.db.get(args.taskId);
-    if (!task) return;
-
+    if (!task || task.userId !== userId) return;
     const newSubtasks = task.subtasks.filter((s) => s.id !== args.subtaskId);
-
     await ctx.db.patch(args.taskId, { subtasks: newSubtasks });
   },
 });
@@ -99,13 +121,14 @@ export const deleteSubTask = mutation({
 export const toggleSubtask = mutation({
   args: { taskId: v.id("tasks"), subtaskId: v.string() },
   handler: async (ctx, args) => {
+    const user = await ctx.auth.getUserIdentity();
+    if (!user) throw new Error("Not authenticated");
+    const userId = user.subject;
     const task = await ctx.db.get(args.taskId);
-    if (!task) return;
-
+    if (!task || task.userId !== userId) return;
     const updatedSubtasks = task.subtasks.map((s) =>
       s.id === args.subtaskId ? { ...s, completed: !s.completed } : s
     );
-
     await ctx.db.patch(args.taskId, { subtasks: updatedSubtasks });
   },
 });
@@ -115,19 +138,15 @@ export const updateTask = mutation({
     id: v.id("tasks"),
     title: v.string(),
     description: v.optional(v.string()),
-    // daysLeft: v.number(),
     priority: v.union(v.literal("high"), v.literal("medium"), v.literal("low")),
-    // completed: v.boolean(),
-    // subtasks: v.array(
-    //   v.object({
-    //     id: v.string(),
-    //     title: v.string(),
-    //     completed: v.boolean(),
-    //   })
-    // ),
   },
   handler: async (ctx, args) => {
+    const user = await ctx.auth.getUserIdentity();
+    if (!user) throw new Error("Not authenticated");
+    const userId = user.subject;
     const { id, ...updates } = args;
+    const task = await ctx.db.get(id);
+    if (!task || task.userId !== userId) return;
     await ctx.db.patch(id, updates);
   },
 });

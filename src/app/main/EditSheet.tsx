@@ -43,8 +43,6 @@ export const EditSheet = ({
   close,
   selectedTaskInfo,
 }: EditSheetProps) => {
-  console.log("Selected Task Info in EditSheet:", selectedTaskInfo);
-
   const form = useForm<editTaskFormType>({
     resolver: zodResolver(editTaskFormSchema),
     defaultValues: { ...selectedTaskInfo },

@@ -3,6 +3,7 @@ import { v } from "convex/values";
 
 export default defineSchema({
   tasks: defineTable({
+    userId: v.string(), // Clerk user ID
     title: v.string(),
     description: v.optional(v.string()),
     daysLeft: v.number(),

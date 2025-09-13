@@ -1,3 +1,18 @@
+import { Tasktype } from "convex/types";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useMutation } from "convex/react";
+import { api } from "convex/_generated/api";
+
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
+
 import {
   Sheet,
   SheetContent,
@@ -15,22 +30,7 @@ import {
 } from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { Tasktype } from "../../../convex/types";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { editTaskFormSchema } from "./schema";
-import { z } from "zod";
-type editTaskFormType = z.infer<typeof editTaskFormSchema>;
-import { useMutation } from "convex/react";
-import { api } from "../../../convex/_generated/api";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
+import { editTaskFormSchema, editTaskFormType } from "@/constants";
 
 interface EditSheetProps {
   isOpen: boolean;
@@ -60,7 +60,7 @@ export const EditSheet = ({
 
   return (
     <Sheet open={isOpen} onOpenChange={close}>
-      <SheetContent className="w-[400px] sm:w-[540px] p-4">
+      <SheetContent>
         <SheetHeader>
           <SheetTitle>Edit Task</SheetTitle>
           <SheetDescription>Update your task details below.</SheetDescription>

@@ -16,8 +16,9 @@ export const getTasks = query({
 });
 
 export const getTaskByID = query({
-  args: { id: v.id("tasks") },
+  args: { id: v.union(v.id("tasks"), v.null()) },
   handler: async (ctx, args) => {
+    if (args.id === null) return null;
     const user = await ctx.auth.getUserIdentity();
     if (!user) throw new Error("Not authenticated");
 

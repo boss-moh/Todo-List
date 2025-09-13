@@ -6,9 +6,9 @@ import { Card } from "@/components/ui/card";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Trash2 } from "lucide-react";
 
-import { Tasktype } from "../../../convex/types";
 import { useMutation } from "convex/react";
-import { api } from "../../../convex/_generated/api";
+import { Tasktype } from "convex/types";
+import { api } from "convex/_generated/api";
 
 type TaskItemProps = {
   task: Tasktype;

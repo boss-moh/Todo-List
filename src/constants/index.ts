@@ -3,3 +3,5 @@ export const URL_PATHS = {
   MAIN: "/main",
   PROFILE: "/profile",
 };
+
+export * from "./schema";

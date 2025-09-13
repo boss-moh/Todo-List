@@ -1,3 +1,11 @@
+"use client";
+import { zodResolver } from "@hookform/resolvers/zod";
+
+import { useMutation } from "convex/react";
+import { api } from "convex/_generated/api";
+
+import { useForm } from "react-hook-form";
+
 import {
   Sheet,
   SheetContent,
@@ -6,6 +14,7 @@ import {
   SheetTitle,
 } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
+
 import {
   SelectContent,
   Select,
@@ -16,8 +25,6 @@ import {
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
 import {
   Form,
   FormControl,
@@ -26,9 +33,7 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { createTaskFormSchema, createTaskFormType } from "./schema";
-import { api } from "../../../convex/_generated/api";
-import { useMutation } from "convex/react";
+import { createTaskFormSchema, createTaskFormType } from "@/constants";
 
 interface CreateSheetProps {
   isOpen: boolean;
@@ -41,7 +46,6 @@ export const CreateSheet = ({ isOpen, close }: CreateSheetProps) => {
     defaultValues: {
       title: "",
       description: "",
-      priority: "medium",
     },
   });
 
@@ -55,7 +59,7 @@ export const CreateSheet = ({ isOpen, close }: CreateSheetProps) => {
   }
   return (
     <Sheet open={isOpen} onOpenChange={close}>
-      <SheetContent className="w-[400px] sm:w-[540px] p-4">
+      <SheetContent>
         <SheetHeader>
           <SheetTitle>Create New Task</SheetTitle>
           <SheetDescription>Add a new task to your list.</SheetDescription>

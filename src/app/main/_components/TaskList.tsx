@@ -11,10 +11,10 @@ export const TaskList = ({ tasks, onSelectTaskId, title }: TaskListProps) => {
   return (
     <article className="mb-8">
       <div className="flex items-center gap-2 mb-4">
-        <h2 className="text-sm font-medium text-gray-500 uppercase tracking-wide">
+        <h2 className="text-sm font-medium  uppercase tracking-wide">
           {title}
         </h2>
-        <span className="bg-gray-200 text-gray-600 text-xs px-2 py-1 rounded-full">
+        <span className="bg-muted-foreground text-white  text-xs px-2 py-1 rounded-full">
           {tasks.length}
         </span>
       </div>

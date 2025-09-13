@@ -59,7 +59,7 @@ export const CreateSheet = ({ isOpen, close }: CreateSheetProps) => {
   }
   return (
     <Sheet open={isOpen} onOpenChange={close}>
-      <SheetContent>
+      <SheetContent className="bg-secondary">
         <SheetHeader>
           <SheetTitle>Create New Task</SheetTitle>
           <SheetDescription>Add a new task to your list.</SheetDescription>

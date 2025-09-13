@@ -28,7 +28,7 @@ export const TaskItem = ({ task, onSelectTaskId }: TaskItemProps) => {
     deleteTaskRequest({ id: task._id });
   };
   return (
-    <Card className="p-4 bg-white shadow-sm hover:shadow-md ">
+    <Card className="p-4  shadow-sm hover:shadow-md ">
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-3 flex-1">
           <Checkbox

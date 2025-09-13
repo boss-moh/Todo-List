@@ -1,12 +1,13 @@
 "use client";
 
+import ToggleTheme from "@/components/ToggleTheme";
 import { Button } from "@/components/ui/button";
 import { SignInButton, SignUpButton, UserButton } from "@clerk/clerk-react";
 import { Authenticated, AuthLoading, Unauthenticated } from "convex/react";
 
 export const Header = () => {
   return (
-    <header className="flex justify-between items-center p-4 gap-4  bg-gray-50 max-w-3xl h-16  container mx-auto px-6">
+    <header className="flex justify-between items-center py-6 gap-4    h-16 bg-secondary p-4 ">
       <div>
         <h1 className="text-2xl font-bold">Taskly</h1>
       </div>
@@ -26,6 +27,7 @@ export const Header = () => {
         <AuthLoading>
           <div>Loading...</div>
         </AuthLoading>
+        <ToggleTheme />
       </div>
     </header>
   );

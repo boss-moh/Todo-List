@@ -34,7 +34,7 @@ export const DetailsSheet = ({
 
   return (
     <Sheet open={isOpen} onOpenChange={close}>
-      <SheetContent>
+      <SheetContent className="bg-card">
         <SheetHeader>
           <SheetTitle>Task Details</SheetTitle>
           <SheetDescription>View and manage your task</SheetDescription>

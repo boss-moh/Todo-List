@@ -11,19 +11,16 @@ export const MainPage = () => {
 
   return (
     <Authenticated>
-      <div className="mb-8">
-        <header className="flex items-center justify-between mb-2">
-          <h2 className=" text-xl md:text-2xl font-bold text-gray-900">
-            My Tasks
-          </h2>
-
-          <Button onClick={createSheetSettings.open}>
-            <Plus />
-            Add Task
-          </Button>
-        </header>
-        <p className="text-gray-600">Manage your tasks effectively</p>
-      </div>
+      <header className="flex items-center justify-between mb-2">
+        <div>
+          <h2 className=" text-xl md:text-2xl font-bold ">My Tasks</h2>
+          <p className="text-muted-foreground">Manage your tasks effectively</p>
+        </div>
+        <Button onClick={createSheetSettings.open}>
+          <Plus />
+          Add Task
+        </Button>
+      </header>
       <CreateSheet {...createSheetSettings} />
       <Feed />
     </Authenticated>

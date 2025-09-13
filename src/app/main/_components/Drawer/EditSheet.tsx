@@ -60,7 +60,7 @@ export const EditSheet = ({
 
   return (
     <Sheet open={isOpen} onOpenChange={close}>
-      <SheetContent>
+      <SheetContent className="bg-card">
         <SheetHeader>
           <SheetTitle>Edit Task</SheetTitle>
           <SheetDescription>Update your task details below.</SheetDescription>

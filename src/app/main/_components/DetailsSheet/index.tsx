@@ -13,7 +13,7 @@ import { Progress } from "@/components/ui/progress";
 import { Button } from "@/components/ui/button";
 import SubTask from "./SubTask";
 import AddSubTask from "./AddSubTask";
-import { CompletionSubTask } from "./CompletionSubTask";
+import { CompletionTask } from "./CompletionTask";
 import { formatDate, getTaskProgress } from "@/lib/utils";
 import { Skeleton } from "@/components/ui/skeleton";
 
@@ -103,10 +103,9 @@ export const DetailsSheet = ({
             </div>
 
             <div className="flex gap-2 pt-4">
-              <CompletionSubTask
-                parentId={selectedTask._id}
+              <CompletionTask
+                taskId={selectedTask._id}
                 isCompleted={selectedTask.completed}
-                subtaskId={selectedTask._id}
               />
               <Button
                 variant="outline"

@@ -1,5 +1,4 @@
 import { z } from "zod";
-import { Id } from "../../convex/_generated/dataModel";
 
 export const addSubtaskSchema = z.object({
   title: z.string().min(1, "Subtask title is required"),

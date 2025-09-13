@@ -36,7 +36,7 @@ export default function RootLayout({
         <ClerkProvider>
           <ConvexClientProvider>
             <Header />
-            <div className="container max-w-2xl mx-auto px-6  min-h-screen bg-gray-50 py-4 ">
+            <div className="container max-w-3xl mx-auto px-6  min-h-screen bg-gray-50 py-4 ">
               {children}
             </div>
           </ConvexClientProvider>

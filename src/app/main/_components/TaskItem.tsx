@@ -16,11 +16,13 @@ type TaskItemProps = {
 };
 
 export const TaskItem = ({ task, onSelectTaskId }: TaskItemProps) => {
-  const markAsDoneRequest = useMutation(api.tasks.markAsComplete);
+  const toggleTaskCompletionHandler = useMutation(
+    api.tasks.toggleTaskCompletion
+  );
   const deleteTaskRequest = useMutation(api.tasks.deleteTask);
 
   const handleMark = () => {
-    markAsDoneRequest({
+    toggleTaskCompletionHandler({
       id: task._id,
     });
   };

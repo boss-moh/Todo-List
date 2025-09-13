@@ -55,14 +55,16 @@ export const addTask = mutation({
 });
 
 // Toggle task completion
-export const markAsComplete = mutation({
+export const toggleTaskCompletion = mutation({
   args: { id: v.id("tasks") },
   handler: async (ctx, args) => {
     const user = await ctx.auth.getUserIdentity();
     if (!user) throw new Error("Not authenticated");
-    const userId = user.subject;
+
     const task = await ctx.db.get(args.id);
-    if (!task || task.userId !== userId) return;
+    if (!task || task.userId !== user.subject) return null;
+
+    console.log({ user, task });
     await ctx.db.patch(args.id, { completed: !task.completed });
   },
 });
@@ -125,6 +127,7 @@ export const toggleSubtask = mutation({
     const user = await ctx.auth.getUserIdentity();
     if (!user) throw new Error("Not authenticated");
     const userId = user.subject;
+
     const task = await ctx.db.get(args.taskId);
     if (!task || task.userId !== userId) return;
     const updatedSubtasks = task.subtasks.map((s) =>
